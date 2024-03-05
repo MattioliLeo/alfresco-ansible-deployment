@@ -2,10 +2,15 @@
 
 This page describes how to deploy Alfresco Content Services (ACS) using the Ansible playbook found in this project.
 
-If it's your first time with Ansible, then a read of [Ansible concepts](https://docs.ansible.com/ansible/latest/user_guide/basic_concepts.html) is highly suggested.
+If it's your first time with Ansible, then a read of [Ansible
+concepts](https://docs.ansible.com/ansible/latest/user_guide/basic_concepts.html)
+is highly suggested.
 
-A basic understanding of Ansible concepts is highly recommended to successfully complete the deployment and better understand all the steps documented in this guide.
-If it's your first time with Ansible, please have a read at [Ansible concepts](https://docs.ansible.com/ansible/latest/user_guide/basic_concepts.html) for a brief introduction.
+A basic understanding of Ansible concepts is highly recommended to successfully
+complete the deployment and better understand all the steps documented in this
+guide. If it's your first time with Ansible, please have a read at [Ansible
+concepts](https://docs.ansible.com/ansible/latest/user_guide/basic_concepts.html)
+for a brief introduction.
 
 * [Deployment Guide](#deployment-guide)
   * [Getting started quickly with Vagrant](#getting-started-quickly-with-vagrant)
@@ -338,9 +343,10 @@ your architecture so each component can be deployed on a dedicated node.
 ![SSH Deployment Type](./resources/deployment-type-ssh.png)
 
 The `inventory_ha.yml` which is very similar to the previous one but also
-provides s skeleton for repository clustering (see [the deployment guide](./deployment-guide.md) for details on repository clustering).
+provides a skeleton for repository clustering.
 
-A complete documentation about inventory file is available at [inventory file](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#intro-inventory)
+A complete documentation about inventory file is available at
+[inventory file](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html#intro-inventory)
 
 ### Folder Structure
 
@@ -409,15 +415,22 @@ communication paths and port numbers used.
 
 ## Configure Your Deployment
 
-By default, without any configuration applied, the playbook will deploy a limited trial of the Enterprise version of Alfresco Content Services 7.x that goes into read-only mode after 2 days. If you'd like to try Alfresco Content Services for a longer period, request the 30-day [Download Trial](https://www.alfresco.com/platform/content-services-ecm/trial/download).
+By default, without any configuration applied, the playbook will deploy a
+limited trial of the Enterprise version of Alfresco Content Services 7.x that
+goes into read-only mode after 2 days. If you'd like to try Alfresco Content
+Services for a longer period, request the 30-day [Download
+Trial](https://www.alfresco.com/platform/content-services-ecm/trial/download).
 
 The sections below describe how you can configure your deployment before running the playbook.
 
 ### License
 
-If you have a valid license place your `.lic` file in the `configuration_files/licenses` folder before running the playbook.
+If you have a valid license place your `.lic` file in the
+`configuration_files/licenses` folder before running the playbook.
 
-> NOTE: You can also [upload a license](https://docs.alfresco.com/content-services/latest/admin/license/) via the Admin Console once the system is running.
+> NOTE: You can also [upload a
+> license](https://docs.alfresco.com/content-services/latest/admin/license/) via
+> the Admin Console once the system is running.
 
 ### Secrets management
 
@@ -445,13 +458,13 @@ via user input on each ansible-playbook run using the `--ask-vault-pass` flag
 pipenv run ansible-playbook --ask-vault-pass playbooks/acs.yml
 ```
 
-While we recommend to refer to the official Ansible documentation to properly configure
-[Ansible vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html#managing-vault-passwords),
+While we recommend to refer to the official Ansible documentation to properly
+configure [Ansible vault](https://docs.ansible.com/ansible/latest/user_guide/vault.html#managing-vault-passwords),
 below a basic configuration that will help you in quickly installing Alfresco
-without to having to input the Vault password everytime.
+without to having to input the Vault password every time.
 
 Configure a password in a file (e.g. `~/.vault_pass.txt`), optionally
-autogenerating it with:
+autogenerate it with:
 
 ```bash
 openssl rand -base64 21 > ~/.vault_pass.txt
@@ -473,16 +486,17 @@ Ansible Vault provides two alternative ways to protect secrets:
 * [Encrypted variables](https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-individual-variables-with-ansible-vault)
 * [Encrypted files](https://docs.ansible.com/ansible/latest/user_guide/vault.html#encrypting-files-with-ansible-vault)
 
-In the previous links you can read both advantages and disadvantages of the two approaches.
+In the previous links you can read both advantages and disadvantages of the two
+approaches.
 
 > If you are upgrading from previous versions of the playbook, you may want to
 > read [upgrade notes](playbook-upgrade.md#secrets-management).
 
 ##### Encrypted variables
 
-With Encrypted variables you can use the `secrets-init.yml` playbook to
-handle the first-time generation of secrets and also to automatically add new
-secrets that may be introduced in future versions of the playbook.
+With Encrypted variables you can use the `secrets-init.yml` playbook to handle
+the first-time generation of secrets and also to automatically add new secrets
+that may be introduced in future versions of the playbook.
 
 To automatically setup/update secrets, run:
 
@@ -492,8 +506,8 @@ pipenv run ansible-playbook -e vault_init=encrypted_variables playbooks/secrets-
 
 ##### Encrypted files
 
-With Encrypted files you can use the `secrets-init.yml` playbook to handle
-the first-time generation of secrets but for updates you have to provide them as
+With Encrypted files you can use the `secrets-init.yml` playbook to handle the
+first-time generation of secrets but for updates you have to provide them as
 described below. However you can provide your own passwords too.
 
 ```bash
@@ -534,7 +548,8 @@ To generate a stub secrets file, run:
 pipenv run ansible-playbook -e vault_init=plugin playbooks/secrets-init.yml
 ```
 
-And then edit `vars/secrets.yml` to fill all the required arguments for the plugin you want to use as described in the plugin documentation pages:
+And then edit `vars/secrets.yml` to fill all the required arguments for the
+plugin you want to use as described in the plugin documentation pages:
 
 * [HashiCorp Vault](https://docs.ansible.com/ansible/latest/collections/community/hashi_vault/hashi_vault_lookup.html)
 * [AWS Secrets](https://docs.ansible.com/ansible/latest/collections/amazon/aws/aws_secret_lookup.html)
@@ -543,8 +558,7 @@ And then edit `vars/secrets.yml` to fill all the required arguments for the plug
 
 ### Alfresco Global Properties
 
-You can provide your [repository
-configuration](https://github.com/Alfresco/acs-deployment/blob/master/docs/properties-reference.md)
+You can provide your [repository configuration](https://github.com/Alfresco/acs-deployment/blob/master/docs/properties-reference.md)
 by editing the `configuration_files/alfresco-global.properties` file.
 
 > This approach is now discouraged and you should prefer using the [`repository`
@@ -559,26 +573,40 @@ by editing the `configuration_files/alfresco-global.properties` file.
 
 ### Enable SSL
 
-If you have a FQDN and a certificate you want to use place the certificate and the key in the `configuration_files/ssl_certificates` folder before running the playbook. Also replace the `fqdn_alfresco: "your_domain.com"` with your own domain in `group_vars/all.yml` along with setting `use_ssl: true`.
+If you have a FQDN and a certificate you want to use place the certificate and
+the key in the `configuration_files/ssl_certificates` folder before running the
+playbook. Also replace the `fqdn_alfresco: "your_domain.com"` with your own
+domain in `group_vars/all.yml` along with setting `use_ssl: true`.
 
-> NOTE: The certificate and the key should be named the same as the domain eg: `your_domain.com.key` and `your_domain.com.crt`
+> NOTE: The certificate and the key should be named the same as the domain eg:
+> `your_domain.com.key` and `your_domain.com.crt`
 
 ### AMPs
 
-Several AMP files are downloaded and applied during playbook execution, these are defined in a variable which is either in the `group_vars/all.yml` file or an extra-var file (in case of older ACS version).
-For that reason there is common way to override that variable. If you want to change the list of AMPs you'll need to directly change the variable from the file where it is defined.
+Several AMP files are downloaded and applied during playbook execution, these
+are defined in a variable which is either in the `group_vars/all.yml` file or an
+extra-var file (in case of older ACS version). For that reason there is common
+way to override that variable. If you want to change the list of AMPs you'll
+need to directly change the variable from the file where it is defined.
 
-1. Open `group_vars/all.yml` or the `x.y.N-extra-vars.yml` file  and amend `amp_downloads` variable definition
-2. In the `group_vars/all.yml` file, Add any additional AMP you want to apply to the `amp_downloads` variable as well, paying close attention to the `dest` property. If it's a repository AMP use the `amps_repo` folder, if it's a Share AMP use the `amps_share` folder
+1. Open `group_vars/all.yml` or the `x.y.N-extra-vars.yml` file  and amend
+   `amp_downloads` variable definition
+2. In the `group_vars/all.yml` file, Add any additional AMP you want to apply to
+   the `amp_downloads` variable as well, paying close attention to the `dest`
+   property. If it's a repository AMP use the `amps_repo` folder, if it's a
+   Share AMP use the `amps_share` folder
 3. Save the file and run the playbook as normal.
 
 > NOTE: This mechanism is sub-optimal and will be improved in a future release.
 
 ### JVM Options
 
-Each Java based service deployed by the playbook is configured with some default settings, including memory settings.
+Each Java based service deployed by the playbook is configured with some default
+settings, including memory settings.
 
-The defaults are defined in the roles' specific default variables (see the [Ansible Overview paragraph in the README file](./README.md)) so they can be overridden in the inventory_file using the right scope.
+The defaults are defined in the roles' specific default variables (see the
+[Ansible Overview paragraph in the README file](./README.md)) so they can be
+overridden in the inventory_file using the right scope.
 
 For example, to override the JAVA_OPTS environment variable for the All-In-One Transform Engine place the following in inventory file:
 
@@ -594,8 +622,12 @@ all:
           - $JAVA_OPTS
 ```
 
-All the `_environment` variables defined in roles are dictionaries, and all their keys are added to the relevant components start script thus allowing you to define any number of environment variables. Key values are a list of strings to allow for easier manipulation.
-When overriding the default env vars you should make sure you're not retiring important ones so always take a look at the ``roles/ROLE_NAME/defaults/main.yml` file first.
+All the `_environment` variables defined in roles are dictionaries, and all
+their keys are added to the relevant components start script thus allowing you
+to define any number of environment variables. Key values are a list of strings
+to allow for easier manipulation. When overriding the default env vars you
+should make sure you're not retiring important ones so always take a look at the
+``roles/ROLE_NAME/defaults/main.yml` file first.
 
 ### Single Sign On (Keycloak)
 
@@ -619,11 +651,15 @@ automatically to use it (share, adw, acc).
 
 ### External Databases
 
-By default the playbook will deploy and configure a Postgres server for you. That server is a basic PostgreSQL setup with no specific optimization or features. For example, it doesn't provide any high availability mechanism.
+By default the playbook will deploy and configure a Postgres server for you.
+That server is a basic PostgreSQL setup with no specific optimization or
+features. For example, it doesn't provide any high availability mechanism.
 
-> This server also requires to NOT have a sudo configuration with `requirestty` set.
+> This server also requires to NOT have a sudo configuration with `requirestty`
+> set.
 
-If you'd prefer to use an external database server you can override the `repo_db_url` variable.
+If you'd prefer to use an external database server you can override the
+`repo_db_url` variable.
 
 An example custom database url is shown below:
 
@@ -632,11 +668,17 @@ repo_db_url: jdbc:mysql://54.164.117.56:3306/alfresco?useUnicode=yes&characterEn
 repo_db_driver: com.mysql.jdbc.Driver
 ```
 
-Along with the url the database driver binaries need to be provided for one or both services in the `configuration_files/db_connector_repo` and/or `configuration_files/db_connector_sync` folders.
+Along with the url the database driver binaries need to be provided for one or
+both services in the `configuration_files/db_connector_repo` and/or
+`configuration_files/db_connector_sync` folders.
 
-The default database username (`repo_db_username` and/or `sync_db_username`) and password (`repo_db_password` and/or `sync_db_password`) in the configuration file `group_vars/all.yml` can also be overridden with your custom values.
+The default database username (`repo_db_username` and/or `sync_db_username`) and
+password (`repo_db_password` and/or `sync_db_password`) in the configuration
+file `group_vars/all.yml` can also be overridden with your custom values.
 
-Please refer to the [Configuring Databases](https://docs.alfresco.com/content-services/latest/config/databases/) documentation for more detailed information.
+Please refer to the [Configuring
+Databases](https://docs.alfresco.com/content-services/latest/config/databases/)
+documentation for more detailed information.
 
 ### External ActiveMQ
 
@@ -645,8 +687,8 @@ group that will deploy and configure an ActiveMQ instance that is suitable for
 testing/evaluation only (no failover and default credentials).
 
 It's strongly suggested that you provide your own ActiveMQ instance by defining
-in the inventory file, exactly one host as a member of the `external_activemq` group
-(nested inside the `external` group) as follows:
+in the inventory file, exactly one host as a member of the `external_activemq`
+group (nested inside the `external` group) as follows:
 
 ```yaml
 all:
@@ -663,7 +705,8 @@ all:
 ```
 
 Every hosts under the `external` group is not directly managed by the acs
-playbook and is required in the inventory just for the sake of architecture description.
+playbook and is required in the inventory just for the sake of architecture
+description.
 
 ### External ElasticSearch
 
@@ -691,7 +734,8 @@ playbook and is required in the inventory just for the sake of architecture desc
 
 ### External Identity
 
-Support for external Identity service will be implemented in a future playbook release (internal ref: OPSEXP-2353).
+Support for external Identity service will be implemented in a future playbook
+release (internal ref: OPSEXP-2353).
 
 ### Custom Keystore
 
@@ -728,9 +772,14 @@ repository:
 
 ### Specifying a different component repository
 
-In case you want to use a different server/repository for a specific artifact to further customize your deployment, you can override the default URL in two ways:
+In case you want to use a different server/repository for a specific artifact to
+further customize your deployment, you can override the default URL in two ways:
 
-You can change the value of `component.repository` key for the selected component, provided that the path to your custom artifact follows the conventional [Maven2 Repository Layout](https://maven.apache.org/repository/layout.html). For example to change the repository of ACS artifact you would:
+You can change the value of `component.repository` key for the selected
+component, provided that the path to your custom artifact follows the
+conventional [Maven2 Repository
+Layout](https://maven.apache.org/repository/layout.html). For example to change
+the repository of ACS artifact you would:
 
 Edit `group_vars/all.yml`:
 
@@ -750,13 +799,17 @@ acs:
   edition: Enterprise
 ```
 
-> This assumes that the full URL to your custom artifact looks like `https://your.repo.com/path/to/your/artifacts/7.2.1/alfresco-content-services-distribution-7.2.1.zip`
+> This assumes that the full URL to your custom artifact looks like
+> `https://your.repo.com/path/to/your/artifacts/7.2.1/alfresco-content-services-distribution-7.2.1.zip`
 
-In case you want to install a different (not latest) ACS version, you should make similar changes to the respective `*-extra-vars.yml` file.
+In case you want to install a different (not latest) ACS version, you should
+make similar changes to the respective `*-extra-vars.yml` file.
 
 The other way is to override the URL completely:
 
-In `group_vars/all.yml` you need to find the section under which the default download URL for the specific artifact is defined out of `downloads`, `war_downloads` and `amp_downloads` and override it, for example:
+In `group_vars/all.yml` you need to find the section under which the default
+download URL for the specific artifact is defined out of `downloads`,
+`war_downloads` and `amp_downloads` and override it, for example:
 
 ```yaml
 downloads:
@@ -790,7 +843,9 @@ The diagram below shows the result of a localhost deployment.
 
 ![Localhost Deployment](./resources/acs-localhost.png)
 
-To deploy ACS 23.1 Enterprise on the local machine navigate to the folder you extracted the ZIP to and execute the playbook as the current user using the following command (the playbook will escalate privileges when required):
+To deploy ACS 23.1 Enterprise on the local machine navigate to the folder you
+extracted the ZIP to and execute the playbook as the current user using the
+following command (the playbook will escalate privileges when required):
 
 ```bash
 pipenv run ansible-playbook playbooks/acs.yml -i inventory_local.yml
@@ -808,12 +863,14 @@ Or to deploy ACS Community use the following command:
 pipenv run ansible-playbook playbooks/acs.yml -i inventory_local.yml -e "@community-extra-vars.yml"
 ```
 
-By default, the ACS playbook will now also check compatibility of OS if it is  fully supported.
-You can add flag '-e skip_os_test=true' if you want to deploy on not supported OS distribution.
+By default, the ACS playbook will now also check compatibility of OS if it is
+fully supported. You can add flag `-e skip_os_test=true` if you want to deploy
+on not supported OS distribution.
 
 > NOTE: The playbook takes around 30 minutes to complete.
 
-Once the playbook is complete Ansible will display a play recap to let you know that everything is done, similar to the block below:
+Once the playbook is complete Ansible will display a play recap to let you know
+that everything is done, similar to the block below:
 
 ```bash
 PLAY RECAP *******************************************************************************************************
@@ -839,11 +896,17 @@ Once ACS has initialized access the system using the following URLs with a brows
 
 ## SSH Deployment
 
-To deploy to hosts other than the control node an SSH connection is required. The control node must have network access to all the target hosts and permission to SSH into the machine.
+To deploy to hosts other than the control node an SSH connection is required.
+The control node must have network access to all the target hosts and permission
+to SSH into the machine.
 
-The inventory file (`inventory_ssh.yml`) is used to specify the target IP addresses and the SSH connection details. You can specify one IP address for all the hosts to obtain a single-machine deployment, or different IP addresses for a multi-machine deployment.
+The inventory file (`inventory_ssh.yml`) is used to specify the target IP
+addresses and the SSH connection details. You can specify one IP address for all
+the hosts to obtain a single-machine deployment, or different IP addresses for a
+multi-machine deployment.
 
-The example snippet below demonstrates how to deploy the repository to a host with an IP address of `50.6.51.7` and SSH key at `/path/to/id_rsa`.
+The example snippet below demonstrates how to deploy the repository to a host
+with an IP address of `50.6.51.7` and SSH key at `/path/to/id_rsa`.
 
 ```yaml
 repository:
@@ -853,7 +916,10 @@ repository:
       ansible_private_key_file: "/path/to/id_rsa"
 ```
 
-If you want to deploy everything to a single machine follow the steps in the [Single Machine Deployment](#single-machine-deployment) section, alternatively, to deploy to any number of separate machines follow the steps in the [Multi Machine Deployment](#multi-machine-deployment) section.
+If you want to deploy everything to a single machine follow the steps in the
+[Single Machine Deployment](#single-machine-deployment) section, alternatively,
+to deploy to any number of separate machines follow the steps in the [Multi
+Machine Deployment](#multi-machine-deployment) section.
 
 ### Single Machine Deployment
 
@@ -861,15 +927,19 @@ The diagram below shows the result of a single machine deployment.
 
 ![Single Machine Deployment](./resources/acs-single-machine.png)
 
-Once you have prepared the target host and configured the inventory_ssh.yaml file you are ready to run the playbook.
+Once you have prepared the target host and configured the inventory_ssh.yaml
+file you are ready to run the playbook.
 
-To check your inventory file is configured correctly and the control node is able to connect to the target host navigate to the folder you extracted the ZIP to and run the following command:
+To check your inventory file is configured correctly and the control node is
+able to connect to the target host navigate to the folder you extracted the ZIP
+to and run the following command:
 
 ```bash
 pipenv run ansible all -m ping -i inventory_ssh.yml
 ```
 
-To deploy ACS 7.1 Enterprise on the target host execute the playbook as the current user using the following command:
+To deploy ACS 7.1 Enterprise on the target host execute the playbook as the
+current user using the following command:
 
 ```bash
 pipenv run ansible-playbook playbooks/acs.yml -i inventory_ssh.yml
